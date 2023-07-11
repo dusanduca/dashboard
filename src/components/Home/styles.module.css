@@ -1,7 +1,17 @@
-.header_home{
-    background-color: darkblue;
-    color: white;
-    border: 1rem solid transparent;
-    text-align: center;
-    font-size: 2rem;
+.container_table {
+  width: 100%;
+  background-color: rgb(236, 231, 231);
+}
+
+.table {
+  border: 0.2rem solid black;
+}
+
+.th {
+  border: 0.1rem solid black;
+}
+
+.td {
+  border: 0.1rem solid black;
+  padding: 0.5rem;
 }
