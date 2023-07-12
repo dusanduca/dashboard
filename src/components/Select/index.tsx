@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import CreatableSelect from "react-select/creatable";
 import { addedTask as tasks } from "../../../makeData";
 import { Task } from "../../../interface";
+import { SingleValue } from "react-select";
 
 interface OptionProps {
   label: string;
@@ -25,6 +26,14 @@ export default function Select() {
   const [options, setOptions] = useState(defaultOptions);
   const [selectedOption, setSelectedOption] = useState<Task | null>();
 
+  const handleChange = (newValue: SingleValue<OptionProps>) => {
+    //  const title = newValue?.label;
+    // const newTask: Task = {
+    //     title,
+    //  }
+    //  tasks.push(title);
+  };
+
   const handleCreate = (inputValue: string) => {
     setIsLoading(true);
     setTimeout(() => {
@@ -44,7 +53,7 @@ export default function Select() {
       onCreateOption={handleCreate}
       isLoading={isLoading}
       options={options}
-      onChange={(newValue) => setSelectedOption(newValue)}
+      onChange={handleChange}
     />
   );
 }
