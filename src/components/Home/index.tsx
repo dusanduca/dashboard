@@ -11,6 +11,8 @@ import {
 import { Task } from "../../../interface";
 import { addedTask } from "../../../makeData";
 import Select from "../Select";
+import {daysInWeek, eachDayOfInterval, endOfWeek, startOfToday, startOfWeek} from "date-fns";
+
 
 const columnHelper = createColumnHelper<Task>();
 
@@ -28,7 +30,7 @@ const columns = [
   }),
 
   columnHelper.accessor("timeRecords", {
-    header: () => "Date",
+    header: () => "Date"  ,
     cell: (info) => info.getValue(),
     footer: (info) => info.column.id,
   }),
@@ -64,8 +66,15 @@ const columns = [
   }),
 ];
 
+
+
 const Home: NextPageWithLayout = () => {
   const [data, setData] = React.useState(() => [...addedTask]);
+   const today = startOfToday()
+   const newDays = eachDayOfInterval({start: startOfWeek(today), end: endOfWeek(today),})
+   console.log(newDays)
+
+
 
   const table = useReactTable({
     data,
@@ -93,7 +102,7 @@ const Home: NextPageWithLayout = () => {
           ))}
         </thead>
         <tbody>
-          {table.getRowModel().rows.map((row) => (
+           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id} className={styles.td}>
