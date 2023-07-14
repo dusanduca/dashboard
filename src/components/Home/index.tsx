@@ -11,10 +11,28 @@ import {
 import { Task } from "../../../interface";
 import { addedTask } from "../../../makeData";
 import Select from "../Select";
-import {daysInWeek, eachDayOfInterval, endOfWeek, startOfToday, startOfWeek} from "date-fns";
+import {
+  daysInWeek,
+  eachDayOfInterval,
+  endOfWeek,
+  startOfToday,
+  startOfWeek,
+} from "date-fns";
+import { TaskTitle } from "../TaskTimesheet/TaskTitle";
 
+export interface TimesheetRow {
+  projectId: string;
+  taskId: string;
+  mon: number;
+  tue: number;
+  wed: number;
+  thu: number;
+  fri: number;
+  sat: number;
+  sun: number;
+}
 
-const columnHelper = createColumnHelper<Task>();
+const columnHelper = createColumnHelper<TimesheetRow>();
 
 const columns = [
   columnHelper.accessor("projectId", {
@@ -23,61 +41,74 @@ const columns = [
     footer: (info) => info.column.id,
   }),
 
-  columnHelper.accessor("title", {
-    cell: (info) => info.getValue(),
+  columnHelper.accessor("taskId", {
+    cell: TaskTitle,
     header: () => <span>Task</span>,
     footer: (info) => info.column.id,
   }),
 
-  columnHelper.accessor("timeRecords", {
-    header: () => "Date"  ,
+  columnHelper.accessor("mon", {
+    header: (props) => "Date",
     cell: (info) => info.getValue(),
     footer: (info) => info.column.id,
   }),
-  columnHelper.accessor("timeRecords", {
+  columnHelper.accessor("tue", {
     header: () => "Date",
     cell: (info) => info.getValue(),
-    // footer: (info) => info.column.id,
+    footer: (info) => info.column.id,
   }),
-  columnHelper.accessor("timeRecords", {
+  columnHelper.accessor("wed", {
     header: () => "Date",
     cell: (info) => info.getValue(),
-    // footer: (info) => info.column.id,
+    footer: (info) => info.column.id,
   }),
-  columnHelper.accessor("timeRecords", {
+  columnHelper.accessor("thu", {
     header: () => "Date",
     cell: (info) => info.getValue(),
-    // footer: (info) => info.column.id,
+    footer: (info) => info.column.id,
   }),
-  columnHelper.accessor("timeRecords", {
+  columnHelper.accessor("fri", {
     header: () => "Date",
     cell: (info) => info.getValue(),
-    // footer: (info) => info.column.id,
+    footer: (info) => info.column.id,
   }),
-  columnHelper.accessor("timeRecords", {
+  columnHelper.accessor("sat", {
     header: () => "Date",
     cell: (info) => info.getValue(),
-    // footer: (info) => info.column.id,
+    footer: (info) => info.column.id,
   }),
-  columnHelper.accessor("timeRecords", {
+  columnHelper.accessor("sun", {
     header: () => "Date",
     cell: (info) => info.getValue(),
-    // footer: (info) => info.column.id,
+    footer: (info) => info.column.id,
   }),
 ];
 
-
-
 const Home: NextPageWithLayout = () => {
-  const [data, setData] = React.useState(() => [...addedTask]);
-   const today = startOfToday()
-   const newDays = eachDayOfInterval({start: startOfWeek(today), end: endOfWeek(today),})
-   console.log(newDays)
+  const [data, setData] = React.useState([...addedTask]);
+  const today = startOfToday();
+  const newDays = eachDayOfInterval({
+    start: startOfWeek(today),
+    end: endOfWeek(today),
+  });
+  console.log(newDays);
 
-
+  const mockData: TimesheetRow[] = [
+    {
+      projectId: "project1",
+      taskId: "task1",
+      mon: 0,
+      tue: 1,
+      wed: 3,
+      thu: 4,
+      fri: 5,
+      sat: 6,
+      sun: 7,
+    },
+  ];
 
   const table = useReactTable({
-    data,
+    data: mockData,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
@@ -102,7 +133,7 @@ const Home: NextPageWithLayout = () => {
           ))}
         </thead>
         <tbody>
-           {table.getRowModel().rows.map((row) => (
+          {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id} className={styles.td}>
@@ -139,3 +170,6 @@ Home.getLayout = function getLayout(page: any) {
 };
 
 export default Home;
+function utcToZoneTime(newDays: Date[], timeZone: string) {
+  throw new Error("Function not implemented.");
+}
