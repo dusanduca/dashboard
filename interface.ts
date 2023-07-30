@@ -15,3 +15,12 @@ export interface Project {
   id: string;
   title: string;
 }
+
+
+export interface Date {
+  day: number;
+}
+
+export interface Weekday {
+  letter: string;
+}

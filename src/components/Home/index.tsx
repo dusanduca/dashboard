@@ -18,9 +18,14 @@ import {
   startOfToday,
   startOfWeek,
 } from "date-fns";
+import { Weekday, Date } from "../../../interface";
 import { TaskTitle } from "../TaskTimesheet/TaskTitle";
+import { Weekdays } from "../TaskTimesheet/Weekdays";
 
-export interface TimesheetRow {
+
+
+
+export interface TimeSheetRow {
   projectId: string;
   taskId: string;
   mon: number;
@@ -32,7 +37,7 @@ export interface TimesheetRow {
   sun: number;
 }
 
-const columnHelper = createColumnHelper<TimesheetRow>();
+const columnHelper = createColumnHelper<TimeSheetRow>();
 
 const columns = [
   columnHelper.accessor("projectId", {
@@ -42,13 +47,13 @@ const columns = [
   }),
 
   columnHelper.accessor("taskId", {
-    cell: TaskTitle,
+    cell: (info) => info.getValue(),
     header: () => <span>Task</span>,
     footer: (info) => info.column.id,
   }),
 
   columnHelper.accessor("mon", {
-    header: (props) => "Date",
+    header: (props) => Weekdays,
     cell: (info) => info.getValue(),
     footer: (info) => info.column.id,
   }),
@@ -93,7 +98,7 @@ const Home: NextPageWithLayout = () => {
   });
   console.log(newDays);
 
-  const mockData: TimesheetRow[] = [
+  const mockData: TimeSheetRow[] = [
     {
       projectId: "project1",
       taskId: "task1",
@@ -170,6 +175,3 @@ Home.getLayout = function getLayout(page: any) {
 };
 
 export default Home;
-function utcToZoneTime(newDays: Date[], timeZone: string) {
-  throw new Error("Function not implemented.");
-}
